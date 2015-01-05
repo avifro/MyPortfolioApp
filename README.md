@@ -1,4 +1,4 @@
-MyProtfolioApp
+MyPortfolioApp
 ==============
 
-Customized Protfolio App
+My customized portfolio application
