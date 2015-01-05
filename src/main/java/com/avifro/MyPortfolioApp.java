@@ -2,8 +2,7 @@ package com.avifro;
 
 import com.avifro.entities.TradableEntity;
 
-import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.*;
 
 /**
  * Created by IntelliJ IDEA.
@@ -14,27 +13,37 @@ import java.util.concurrent.LinkedBlockingQueue;
 public class MyPortfolioApp {
 
     private static MyPortfolioApp myPortfolioApp;
-    private static BlockingQueue<? extends TradableEntity> sharedBlockingQueue;
-    private static UpdatesProducer producer;
-    private static UpdatesConsumer consumer;
 
-    private MyPortfolioApp() {}
+    private BlockingQueue<? extends TradableEntity> sharedBlockingQueue;
+    private UpdatesProducer producer;
+    private UpdatesConsumer consumer;
+
+    private MyPortfolioApp() {
+        init();
+    }
 
     public static MyPortfolioApp getInstance() {
         if (myPortfolioApp == null) {
             myPortfolioApp = new MyPortfolioApp();
-            init();
         }
         return myPortfolioApp;
     }
 
-    private static void init() {
+    private void init() {
         sharedBlockingQueue = new LinkedBlockingQueue();
+        producer = UpdatesProducer.getInstance(sharedBlockingQueue);
+        consumer = UpdatesConsumer.getInstance(sharedBlockingQueue);
+    }
 
+    public void run() {
+        ScheduledExecutorService executorService = Executors.newSingleThreadScheduledExecutor();
+        executorService.scheduleAtFixedRate(()-> checkForUpdates(), 0, 30, TimeUnit.MINUTES);
     }
 
     public void checkForUpdates() {
+        // getting user configuration
 
+        producer.
     }
 
 }

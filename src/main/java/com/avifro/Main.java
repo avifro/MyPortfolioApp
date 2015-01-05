@@ -14,8 +14,7 @@ public class Main {
 
     public static void main(String[] args) {
         final MyPortfolioApp app = MyPortfolioApp.getInstance();
-        ScheduledExecutorService executorService = Executors.newSingleThreadScheduledExecutor();
-        executorService.scheduleAtFixedRate(()-> app.checkForUpdates(), 0, 30, TimeUnit.MINUTES);
+        app.run();
     }
 
 }
