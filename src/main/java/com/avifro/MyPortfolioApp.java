@@ -1,7 +1,9 @@
 package com.avifro;
 
 import com.avifro.entities.TradableEntity;
+import com.avifro.entities.UpdatesMessage;
 
+import java.util.List;
 import java.util.concurrent.*;
 
 /**
@@ -14,7 +16,7 @@ public class MyPortfolioApp {
 
     private static MyPortfolioApp myPortfolioApp;
 
-    private BlockingQueue<? extends TradableEntity> sharedBlockingQueue;
+    private BlockingQueue<UpdatesMessage> sharedBlockingQueue;
     private UpdatesProducer producer;
     private UpdatesConsumer consumer;
 
@@ -36,14 +38,20 @@ public class MyPortfolioApp {
     }
 
     public void run() {
-        ScheduledExecutorService executorService = Executors.newSingleThreadScheduledExecutor();
-        executorService.scheduleAtFixedRate(()-> checkForUpdates(), 0, 30, TimeUnit.MINUTES);
+        // Consumer thread
+        ExecutorService executorService = Executors.newSingleThreadExecutor();
+        executorService.execute(()-> consumer.consume());
+
+        // Producer thread
+        ScheduledExecutorService scheduledExecutorService = Executors.newSingleThreadScheduledExecutor();
+        scheduledExecutorService.scheduleAtFixedRate(()-> checkForUpdates(), 0, 30, TimeUnit.MINUTES);
     }
 
     public void checkForUpdates() {
         // getting user configuration
+        List<TradableEntity> tradableEntities = null;
 
-        producer.
+        producer.produce(tradableEntities);
     }
 
 }

@@ -2,14 +2,14 @@ package com.avifro;
 
 import com.avifro.entities.ExchangeStockEnum;
 import com.avifro.entities.TradableEntity;
+import com.avifro.entities.UpdatesMessage;
 import com.avifro.services.StockExchangeService;
 import com.avifro.services.TelAvivStockExchangeService;
 import com.avifro.services.WallStreetStockExchangeService;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.BlockingQueue;
+import java.util.stream.Collectors;
 
 /**
  * Created by IntelliJ IDEA.
@@ -21,30 +21,31 @@ public class UpdatesProducer {
 
     private static UpdatesProducer producer;
 
-    private BlockingQueue<? extends TradableEntity> blockingQueue;
+    private BlockingQueue<UpdatesMessage> blockingQueue;
 
     private Map<String, StockExchangeService> stockExchangeServices;
 
-    private UpdatesProducer(BlockingQueue<? extends TradableEntity> blockingQueue) {
+    private UpdatesProducer(BlockingQueue<UpdatesMessage> blockingQueue) {
         this.blockingQueue = blockingQueue;
         stockExchangeServices.put(ExchangeStockEnum.TA.name(), new TelAvivStockExchangeService());
         stockExchangeServices.put(ExchangeStockEnum.WALL_STREET.name(), new WallStreetStockExchangeService());
     }
 
-    public static UpdatesProducer getInstance(BlockingQueue<? extends TradableEntity> blockingQueue) {
+    public static UpdatesProducer getInstance(BlockingQueue<UpdatesMessage> blockingQueue) {
         if (producer == null) {
             producer = new UpdatesProducer(blockingQueue);
         }
         return producer;
     }
 
-    public checkForUpdates(List<TradableEntity> tradableEntities) {
-
-        //todo can split according to type and then call in parallel once per earch type to stockExchangeService and finally merge
-
-        tradableEntities.forEach((tradableEntity) -> {
-            stockExchangeServices.get(tradableEntity.getOriginExchangeStock()).checkForUpdates(Arrays.asList(tradableEntity));
-        });
+    public void produce(List<TradableEntity> tradableEntities) {
+        Set<UpdatesMessage> updatesMessages = new HashSet<>();
+        tradableEntities.parallelStream()
+                .collect(Collectors.groupingBy(TradableEntity::getOriginExchangeStock))
+                .forEach((exchangeStockType, tradableEntitiesPerType) -> {
+                    updatesMessages.addAll(stockExchangeServices.get(exchangeStockType).checkForUpdates(tradableEntitiesPerType));
+                });
+        blockingQueue.addAll(updatesMessages);
     }
 
 }
