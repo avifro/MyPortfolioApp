@@ -14,7 +14,7 @@ public class StockExchangeOpeningTimesHelper {
 
     private StockExchangeOpeningTimesHelper() {}
 
-    private StockExchangeOpeningTimesHelper getInstance() {
+    public static StockExchangeOpeningTimesHelper getInstance() {
         if (stockExchangeOpeningTimesHelper == null) {
             stockExchangeOpeningTimesHelper = new StockExchangeOpeningTimesHelper();
         }
@@ -23,7 +23,15 @@ public class StockExchangeOpeningTimesHelper {
 
 
     public boolean isOpen(StockExchangeEnum stockExchangeEnum) {
-        return false;
+        boolean open = false;
+        switch (stockExchangeEnum) {
+            case WALL_STREET:
+
+                break;
+            case TA:
+
+        }
+        return open;
     }
 
 }

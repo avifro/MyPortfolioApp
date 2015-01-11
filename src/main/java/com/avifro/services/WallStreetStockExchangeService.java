@@ -1,5 +1,6 @@
 package com.avifro.services;
 
+import com.avifro.entities.StockExchangeEnum;
 import com.avifro.entities.TradableEntity;
 import com.avifro.entities.UpdatesMessage;
 
@@ -14,7 +15,7 @@ public class WallStreetStockExchangeService implements StockExchangeService {
 
     @Override
     public Set<UpdatesMessage> checkForUpdates(List<TradableEntity> tradableEntities) {
-        Set<UpdatesMessage> updatesMessages = new HashSet<>();
+        Set<UpdatesMessage> updatesMessages = new HashSet<>(tradableEntities.size());
         if (isActive()) {
 
         }
@@ -23,7 +24,9 @@ public class WallStreetStockExchangeService implements StockExchangeService {
 
     @Override
     public boolean isActive() {
-        return false;
+        return StockExchangeOpeningTimesHelper.getInstance().isOpen(StockExchangeEnum.WALL_STREET);
     }
+
+
 
 }
