@@ -12,7 +12,7 @@ public abstract class TradableEntity {
     private String value;
     private String symbol;
     protected TradableEntityEnum type;
-    private ExchangeStockEnum originExchangeStock;
+    private StockExchangeEnum originExchangeStock;
 
     public String getSymbol() {
         return symbol;
@@ -44,11 +44,11 @@ public abstract class TradableEntity {
         this.type = type;
     }
 
-    public ExchangeStockEnum getOriginExchangeStock() {
+    public StockExchangeEnum getOriginExchangeStock() {
         return originExchangeStock;
     }
 
-    public void setOriginExchangeStock(ExchangeStockEnum originExchangeStock) {
+    public void setOriginExchangeStock(StockExchangeEnum originExchangeStock) {
         this.originExchangeStock = originExchangeStock;
     }
 }

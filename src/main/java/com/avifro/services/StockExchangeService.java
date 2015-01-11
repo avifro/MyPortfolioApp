@@ -13,7 +13,6 @@ public interface StockExchangeService {
 
     Set<UpdatesMessage> checkForUpdates(List<TradableEntity> tradableEntities);
 
-
-
+    boolean isActive();
 
 }
