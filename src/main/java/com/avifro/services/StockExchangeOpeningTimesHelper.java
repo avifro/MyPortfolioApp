@@ -23,15 +23,19 @@ public class StockExchangeOpeningTimesHelper {
 
 
     public boolean isOpen(StockExchangeEnum stockExchangeEnum) {
-        boolean open = false;
-        switch (stockExchangeEnum) {
-            case WALL_STREET:
-
-                break;
-            case TA:
-
-        }
-        return open;
+//        boolean open = false;
+//
+//        //fetching opening times in different stock exchanges
+//
+//        switch (stockExchangeEnum) {
+//            case WALL_STREET:
+//
+//                break;
+//            case TA:
+//
+//        }
+//        return open;
+        return true;
     }
 
 }

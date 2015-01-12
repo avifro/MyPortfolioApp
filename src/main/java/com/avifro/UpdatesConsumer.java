@@ -40,6 +40,8 @@ public class UpdatesConsumer {
             while (true) {
                 msg = blockingQueue.take();
                 notificationActionsService.sendNotification(formatMsg(msg), null);
+                // TODO updates current value of the tradable entity in db (with current time in my time zone)
+
             }
         } catch (InterruptedException e) {
 

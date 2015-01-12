@@ -1,6 +1,5 @@
 package com.avifro.services;
 
-import com.avifro.entities.TradableEntity;
 import com.avifro.entities.UpdatesMessage;
 
 import java.util.List;
@@ -10,6 +9,6 @@ import java.util.List;
  */
 public interface StockExchangeInformationProvider {
 
-    List<UpdatesMessage> getTradableEntitiesUpdates(List<TradableEntity> tradableEntities);
+    List<UpdatesMessage> checkForUpdatesBySymbols(List<String> symbols);
 
 }
