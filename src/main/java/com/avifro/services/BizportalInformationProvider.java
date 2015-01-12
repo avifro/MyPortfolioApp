@@ -11,7 +11,7 @@ import java.util.List;
 public class BizportalInformationProvider implements StockExchangeInformationProvider {
 
     @Override
-    public List<UpdatesMessage> checkForUpdatesBySymbols(List<TradableEntity> tradableEntities) {
+    public List<UpdatesMessage> checkForUpdatesBySymbols(List<String> symbols) {
         return null;
     }
 }

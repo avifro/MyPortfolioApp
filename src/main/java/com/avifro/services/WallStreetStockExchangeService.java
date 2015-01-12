@@ -20,7 +20,10 @@ public class WallStreetStockExchangeService implements StockExchangeService {
     public Set<UpdatesMessage> checkForUpdates(List<TradableEntity> tradableEntities) {
         Set<UpdatesMessage> updatesMessages = new HashSet<>(tradableEntities.size());
         if (isActive()) {
-            List<String> symbols = tradableEntities.stream().map(TradableEntity::getSymbol).collect(Collectors.toList());
+            List<String> symbols = tradableEntities.stream()
+                                                   .map(TradableEntity::getSymbol)
+                                                   .collect(Collectors.toList());
+            updatesMessages.addAll(markitOnDemandInformationProvider.checkForUpdatesBySymbols(symbols));
 
         }
         return updatesMessages;
