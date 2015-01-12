@@ -1,6 +1,7 @@
 package com.avifro.services;
 
 import com.avifro.entities.StockExchangeEnum;
+import com.avifro.http.AvifroJerseyClient;
 
 /**
  * Created by IntelliJ IDEA.
@@ -10,9 +11,14 @@ import com.avifro.entities.StockExchangeEnum;
  */
 public class StockExchangeOpeningTimesHelper {
 
+    private final static String BASE_URL = "";
     private static StockExchangeOpeningTimesHelper stockExchangeOpeningTimesHelper;
 
-    private StockExchangeOpeningTimesHelper() {}
+    private AvifroJerseyClient httpClient;
+    
+    private StockExchangeOpeningTimesHelper() {
+        httpClient = new AvifroJerseyClient(BASE_URL);
+    }
 
     public static StockExchangeOpeningTimesHelper getInstance() {
         if (stockExchangeOpeningTimesHelper == null) {
