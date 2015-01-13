@@ -40,10 +40,6 @@ public abstract class TradableEntity {
 
     public abstract TradableEntityEnum getType();
 
-    public void setType(TradableEntityEnum type) {
-        this.type = type;
-    }
-
     public StockExchangeEnum getOriginExchangeStock() {
         return originExchangeStock;
     }

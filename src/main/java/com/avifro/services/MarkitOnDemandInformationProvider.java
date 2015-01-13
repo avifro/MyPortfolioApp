@@ -27,7 +27,7 @@ public class MarkitOnDemandInformationProvider implements StockExchangeInformati
     private UpdatesMessage createUpdatesMessage(Response response) {
         UpdatesMessage updatesMessage = null;
         StockQuote stockQuote = response.readEntity(StockQuote.class);
-        
+
         return updatesMessage;
     }
 

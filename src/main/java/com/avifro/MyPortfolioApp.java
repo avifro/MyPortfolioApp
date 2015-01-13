@@ -1,8 +1,11 @@
 package com.avifro;
 
+import com.avifro.entities.Share;
+import com.avifro.entities.StockExchangeEnum;
 import com.avifro.entities.TradableEntity;
 import com.avifro.entities.UpdatesMessage;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.*;
 
@@ -48,8 +51,16 @@ public class MyPortfolioApp {
     }
 
     public void checkForUpdates() {
-        // getting user configuration
-        List<TradableEntity> tradableEntities = null;
+        // getting user configuration from db
+        // TODO temp solution
+        List<TradableEntity> tradableEntities = new ArrayList<>();
+
+        Share hpq = new Share();
+        hpq.setName("Hewellet Packard");
+        hpq.setOriginExchangeStock(StockExchangeEnum.WALL_STREET);
+        hpq.setSymbol("HPQ");
+
+        tradableEntities.add(hpq);
 
         producer.produce(tradableEntities);
     }
