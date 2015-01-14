@@ -4,7 +4,17 @@ import com.avifro.entities.UpdatesMessage;
 import com.avifro.http.AvifroJerseyClient;
 
 import javax.ws.rs.core.Response;
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Unmarshaller;
+import javax.xml.bind.annotation.XmlRootElement;
+import java.io.ByteArrayInputStream;
+import java.io.DataInputStream;
+import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
@@ -12,21 +22,36 @@ import java.util.stream.Collectors;
  */
 public class MarkitOnDemandInformationProvider implements StockExchangeInformationProvider {
 
-    private final static String BASE_URL = "http://dev.markitondemand.com/Api/v2/Quote?";
+    private final static String BASE_URL = "http://dev.markitondemand.com/Api/v2";
 
     private AvifroJerseyClient jerseyClient = new AvifroJerseyClient(BASE_URL);
 
     @Override
     public List<UpdatesMessage> checkForUpdatesBySymbols(List<String> symbols) {
+        Map<String, String> params = new HashMap<>();
+
         return symbols.parallelStream()
-                      .map(symbol -> jerseyClient.get("/Quote?" + symbol, null))
+                      .map(symbol -> {
+                                      params.put("symbol", symbol);
+                                      return jerseyClient.get("/Quote", params, null);})
                       .map(response -> createUpdatesMessage(response))
                       .collect(Collectors.toList());
     }
 
     private UpdatesMessage createUpdatesMessage(Response response) {
         UpdatesMessage updatesMessage = null;
-        StockQuote stockQuote = response.readEntity(StockQuote.class);
+        String stockQuoteString = response.readEntity(String.class);
+        StockQuote stockQuote;
+        try {
+            JAXBContext jc = JAXBContext.newInstance(StockQuote.class);
+
+            Unmarshaller unmarshaller = jc.createUnmarshaller();
+            InputStream inputStream = new ByteArrayInputStream(stockQuoteString.getBytes(StandardCharsets.UTF_8));
+            stockQuote = (StockQuote)unmarshaller.unmarshal(inputStream);
+        } catch (JAXBException e) {
+            throw new RuntimeException("Couldn't deserialize response to StockQuote object");
+        }
+
 
         return updatesMessage;
     }
@@ -50,7 +75,8 @@ public class MarkitOnDemandInformationProvider implements StockExchangeInformati
 //        <Open>40.67</Open>
 //    </StockQuote>
 
-    private class StockQuote {
+    @XmlRootElement(name = "StockQuote")
+    private static class StockQuote {
         private String symbol;
         private double change;
         private double lastPrice;
