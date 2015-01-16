@@ -7,6 +7,7 @@ import javax.ws.rs.core.Response;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
+import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.io.ByteArrayInputStream;
 import java.io.DataInputStream;
@@ -39,21 +40,16 @@ public class MarkitOnDemandInformationProvider implements StockExchangeInformati
     }
 
     private UpdatesMessage createUpdatesMessage(Response response) {
-        UpdatesMessage updatesMessage = null;
         String stockQuoteString = response.readEntity(String.class);
-        StockQuote stockQuote;
         try {
-            JAXBContext jc = JAXBContext.newInstance(StockQuote.class);
-
+            JAXBContext jc = JAXBContext.newInstance(UpdatesMessage.class);
             Unmarshaller unmarshaller = jc.createUnmarshaller();
             InputStream inputStream = new ByteArrayInputStream(stockQuoteString.getBytes(StandardCharsets.UTF_8));
-            stockQuote = (StockQuote)unmarshaller.unmarshal(inputStream);
+
+            return  (UpdatesMessage)unmarshaller.unmarshal(inputStream);
         } catch (JAXBException e) {
             throw new RuntimeException("Couldn't deserialize response to StockQuote object");
         }
-
-
-        return updatesMessage;
     }
 
 
@@ -75,34 +71,4 @@ public class MarkitOnDemandInformationProvider implements StockExchangeInformati
 //        <Open>40.67</Open>
 //    </StockQuote>
 
-    @XmlRootElement(name = "StockQuote")
-    private static class StockQuote {
-        private String symbol;
-        private double change;
-        private double lastPrice;
-
-        public String getSymbol() {
-            return symbol;
-        }
-
-        public void setSymbol(String symbol) {
-            this.symbol = symbol;
-        }
-
-        public double getLastPrice() {
-            return lastPrice;
-        }
-
-        public void setLastPrice(double lastPrice) {
-            this.lastPrice = lastPrice;
-        }
-
-        public double getChange() {
-            return change;
-        }
-
-        public void setChange(double change) {
-            this.change = change;
-        }
-    }
 }

@@ -24,7 +24,6 @@ public class WallStreetStockExchangeService implements StockExchangeService {
                                                    .map(TradableEntity::getSymbol)
                                                    .collect(Collectors.toList());
             updatesMessages.addAll(markitOnDemandInformationProvider.checkForUpdatesBySymbols(symbols));
-
         }
         return updatesMessages;
     }

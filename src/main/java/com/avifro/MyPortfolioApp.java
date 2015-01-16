@@ -56,11 +56,17 @@ public class MyPortfolioApp {
         List<TradableEntity> tradableEntities = new ArrayList<>();
 
         Share hpq = new Share();
-        hpq.setName("Hewellet Packard");
+        hpq.setName("Hewlett Packard");
         hpq.setOriginExchangeStock(StockExchangeEnum.WALL_STREET);
         hpq.setSymbol("HPQ");
 
+        Share crnt = new Share();
+        crnt.setName("Ceragon Networks");
+        crnt.setOriginExchangeStock(StockExchangeEnum.WALL_STREET);
+        crnt.setSymbol("CRNT");
+
         tradableEntities.add(hpq);
+        tradableEntities.add(crnt);
 
         producer.produce(tradableEntities);
     }

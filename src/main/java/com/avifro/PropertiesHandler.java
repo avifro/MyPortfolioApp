@@ -36,17 +36,14 @@ public class PropertiesHandler {
     private static void loadSystemEnvironmentVariables() {
         properties = new Properties();
         if (System.getenv("isProduction") != null) {
-//            properties.setProperty(DB_USER_NAME_KEY, System.getenv(DB_USER_NAME_KEY));
-//            properties.setProperty(DB_PASSWORD_KEY, System.getenv(DB_PASSWORD_KEY));
-//            properties.setProperty(DB_HOST_KEY, System.getenv(DB_HOST_KEY));
-//            properties.setProperty(DB_PORT_KEY, System.getenv(DB_PORT_KEY));
-//            properties.setProperty(DB_NAME_KEY, System.getenv(DB_NAME_KEY));
-//            properties.setProperty(DB_COLLECTION_KEY, System.getenv(DB_COLLECTION_KEY));
-//            properties.setProperty(USER_NAME_KEY, System.getenv(USER_NAME_KEY));
-//            properties.setProperty(PASSWORD_KEY, System.getenv(PASSWORD_KEY));
+            properties.setProperty(DB_USER_NAME_KEY, System.getenv(DB_USER_NAME_KEY));
+            properties.setProperty(DB_PASSWORD_KEY, System.getenv(DB_PASSWORD_KEY));
+            properties.setProperty(DB_HOST_KEY, System.getenv(DB_HOST_KEY));
+            properties.setProperty(DB_PORT_KEY, System.getenv(DB_PORT_KEY));
+            properties.setProperty(DB_NAME_KEY, System.getenv(DB_NAME_KEY));
+            properties.setProperty(DB_COLLECTION_KEY, System.getenv(DB_COLLECTION_KEY));
             properties.setProperty(MY_APP_NAME_KEY, System.getenv(MY_APP_NAME_KEY));
             properties.setProperty(PROWL_API_KEY, System.getenv(PROWL_API_KEY));
-//            properties.setProperty(EMAIL_PASSWORD_KEY, System.getenv(EMAIL_PASSWORD_KEY));
         }
     }
 

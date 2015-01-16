@@ -23,10 +23,17 @@
             <artifactId>notifications-actions</artifactId>
             <version>1.0</version>
         </dependency>
+
         <dependency>
             <groupId>com.avifro</groupId>
             <artifactId>httpClient</artifactId>
             <version>1.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.avifro.db</groupId>
+            <artifactId>mongo-helper</artifactId>
+            <version>1.0-SNAPSHOT</version>
         </dependency>
     </dependencies>
 
