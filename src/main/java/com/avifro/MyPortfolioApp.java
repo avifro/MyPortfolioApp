@@ -1,9 +1,6 @@
 package com.avifro;
 
-import com.avifro.entities.Share;
-import com.avifro.entities.StockExchangeEnum;
-import com.avifro.entities.TradableEntity;
-import com.avifro.entities.UpdatesMessage;
+import com.avifro.entities.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -64,6 +61,11 @@ public class MyPortfolioApp {
         crnt.setName("Ceragon Networks");
         crnt.setOriginExchangeStock(StockExchangeEnum.WALL_STREET);
         crnt.setSymbol("CRNT");
+
+//        Bond matzlaui = new Bond();
+//        matzlaui.setName("Matslaui Bonds C");
+//        matzlaui.setOriginExchangeStock(StockExchangeEnum.TA);
+//        matzlaui.setSymbol("");
 
         tradableEntities.add(hpq);
         tradableEntities.add(crnt);

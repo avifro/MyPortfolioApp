@@ -16,6 +16,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.stream.Collectors;
 
 /**
@@ -31,7 +32,7 @@ public class MarkitOnDemandInformationProvider implements StockExchangeInformati
     public List<UpdatesMessage> checkForUpdatesBySymbols(List<String> symbols) {
         Map<String, String> params = new HashMap<>();
 
-        return symbols.parallelStream()
+        return symbols.stream()
                       .map(symbol -> {
                                       params.put("symbol", symbol);
                                       return jerseyClient.get("/Quote", params, null);})
